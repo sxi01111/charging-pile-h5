@@ -184,7 +184,13 @@
     if (audioOn) { startMusic(); tone(660); }
     else stopMusic();
   });
-  const melody = [67, 69, 72, 69, 67, 64, 62, 64, 67, 69, 74, 72, 69, 67, 64, 62];
+  // 轻快的“乡野公路”电子民谣：暖和弦、木质拨弦和极轻的鼓刷，不使用尖锐提示音。
+  const musicPhrases = [
+    { chord: [50, 57, 62, 66], notes: [66, 69, 74, 69] },
+    { chord: [47, 54, 59, 62], notes: [62, 66, 69, 66] },
+    { chord: [45, 52, 57, 61], notes: [61, 64, 69, 64] },
+    { chord: [50, 57, 62, 66], notes: [66, 69, 74, 78] }
+  ];
   function startMusic() {
     audioCtx ||= new (window.AudioContext || window.webkitAudioContext)();
     audioCtx.resume?.();
@@ -201,32 +207,45 @@
   function scheduleMusic() {
     if (!audioOn || !audioCtx) return;
     while (nextMusicTime < audioCtx.currentTime + 1.05) {
-      const note = melody[musicStep % melody.length];
-      playMusicNote(note, nextMusicTime, .62, musicStep % 4 === 0);
-      nextMusicTime += musicStep % 4 === 3 ? .78 : .55;
+      const phrase = musicPhrases[Math.floor(musicStep / 4) % musicPhrases.length];
+      const beat = musicStep % 4;
+      if (beat === 0) playWarmChord(phrase.chord, nextMusicTime, 2.25);
+      playPluck(phrase.notes[beat], nextMusicTime, beat === 3 ? .68 : .48);
+      if (beat === 1 || beat === 3) playBrush(nextMusicTime);
+      nextMusicTime += [.5, .42, .52, .66][beat] + (Math.random() - .5) * .025;
       musicStep += 1;
     }
   }
-  function playMusicNote(midi, at, duration, addBass) {
+  function playPluck(midi, at, duration) {
     const frequency = 440 * Math.pow(2, (midi - 69) / 12);
     const filter = audioCtx.createBiquadFilter();
     const gain = audioCtx.createGain();
     const lead = audioCtx.createOscillator();
-    filter.type = 'lowpass'; filter.frequency.setValueAtTime(1900, at); filter.Q.value = .5;
-    lead.type = 'triangle'; lead.frequency.setValueAtTime(frequency, at); lead.detune.value = (Math.random() - .5) * 8;
-    gain.gain.setValueAtTime(.0001, at); gain.gain.exponentialRampToValueAtTime(.038, at + .05); gain.gain.exponentialRampToValueAtTime(.0001, at + duration);
-    lead.connect(filter).connect(gain).connect(audioCtx.destination); lead.start(at); lead.stop(at + duration + .03);
-    if (addBass) {
-      const bass = audioCtx.createOscillator(); const bassGain = audioCtx.createGain();
-      bass.type = 'sine'; bass.frequency.setValueAtTime(frequency / 2, at);
-      bassGain.gain.setValueAtTime(.0001, at); bassGain.gain.exponentialRampToValueAtTime(.018, at + .06); bassGain.gain.exponentialRampToValueAtTime(.0001, at + .5);
-      bass.connect(bassGain).connect(audioCtx.destination); bass.start(at); bass.stop(at + .54);
-    }
+    filter.type = 'lowpass'; filter.frequency.setValueAtTime(1450, at); filter.Q.value = 1.1;
+    lead.type = 'sine'; lead.frequency.setValueAtTime(frequency, at); lead.detune.value = (Math.random() - .5) * 14;
+    gain.gain.setValueAtTime(.0001, at); gain.gain.exponentialRampToValueAtTime(.031, at + .018); gain.gain.exponentialRampToValueAtTime(.007, at + .17); gain.gain.exponentialRampToValueAtTime(.0001, at + duration);
+    lead.connect(filter).connect(gain).connect(audioCtx.destination); lead.start(at); lead.stop(at + duration + .04);
+  }
+  function playWarmChord(notes, at, duration) {
+    notes.forEach((midi, index) => {
+      const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); const filter = audioCtx.createBiquadFilter();
+      osc.type = index === 0 ? 'sine' : 'triangle'; osc.frequency.setValueAtTime(440 * Math.pow(2, (midi - 69) / 12), at); osc.detune.value = (Math.random() - .5) * 6;
+      filter.type = 'lowpass'; filter.frequency.setValueAtTime(820, at);
+      gain.gain.setValueAtTime(.0001, at); gain.gain.exponentialRampToValueAtTime(index === 0 ? .016 : .009, at + .16); gain.gain.exponentialRampToValueAtTime(.0001, at + duration);
+      osc.connect(filter).connect(gain).connect(audioCtx.destination); osc.start(at); osc.stop(at + duration + .05);
+    });
+  }
+  function playBrush(at) {
+    const buffer = audioCtx.createBuffer(1, Math.floor(audioCtx.sampleRate * .075), audioCtx.sampleRate);
+    const samples = buffer.getChannelData(0); for (let i = 0; i < samples.length; i += 1) samples[i] = (Math.random() * 2 - 1) * (1 - i / samples.length);
+    const source = audioCtx.createBufferSource(); const filter = audioCtx.createBiquadFilter(); const gain = audioCtx.createGain();
+    filter.type = 'bandpass'; filter.frequency.value = 1300; filter.Q.value = .5; gain.gain.value = .009;
+    source.buffer = buffer; source.connect(filter).connect(gain).connect(audioCtx.destination); source.start(at);
   }
   function tone(frequency) {
     if (!audioOn) return;
     audioCtx ||= new (window.AudioContext || window.webkitAudioContext)();
     const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
-    osc.type = 'sine'; osc.frequency.value = frequency; gain.gain.setValueAtTime(.0001, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(.045, audioCtx.currentTime + .015); gain.gain.exponentialRampToValueAtTime(.0001, audioCtx.currentTime + .18); osc.connect(gain).connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + .2);
+    osc.type = 'triangle'; osc.frequency.value = frequency * .72; gain.gain.setValueAtTime(.0001, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(.012, audioCtx.currentTime + .02); gain.gain.exponentialRampToValueAtTime(.0001, audioCtx.currentTime + .14); osc.connect(gain).connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + .16);
   }
 })();
