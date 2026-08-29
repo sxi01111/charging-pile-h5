@@ -13,6 +13,7 @@
     <div class="grain" aria-hidden="true"></div>
     <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
     <button class="sound-toggle" id="soundToggle" type="button" aria-label="开启背景音乐" aria-pressed="false">◌</button>
+    <span class="music-hint" id="musicHint">点这里，开启音乐 ♪</span>
     <div class="page-count"><span id="pageNumber">01</span><i>/</i>08</div>
     <div class="dots" id="dots" aria-label="页面导航"></div>
 
@@ -27,7 +28,7 @@
         <span class="map-dot dot-1"></span><span class="map-dot dot-2"></span><span class="map-dot dot-3"></span><span class="map-dot dot-4"></span>
         <svg viewBox="0 0 360 220" role="presentation"><path d="M26 158 C58 102 77 142 111 105 S168 35 203 88 S258 168 331 82"/><path d="M28 179 C100 163 116 191 173 143 S258 91 327 145"/></svg>
       </div>
-      <button class="start-btn" data-next type="button">向下滑，开启补能纪实 <span>↓</span></button>
+      <button class="start-btn" data-next type="button">上滑，开启补能纪实 <span>↑</span></button>
       <div class="cover-foot"><span>一场关于距离、效率与机会的乡村能源观察</span><span>01 / 08</span></div>
     </section>
 
@@ -119,6 +120,7 @@
       <div class="choice-block"><span>我常开的车</span><div class="choice-grid cars" id="carChoices"><button class="selected" data-value="家用新能源" type="button">家用新能源</button><button data-value="网约车" type="button">网约车</button><button data-value="乡村物流车" type="button">乡村物流车</button></div></div>
       <div class="profile-card" id="profileCard"><div class="profile-icon">⚡</div><div><small id="profileLabel">东部 · 家用新能源</small><h3 id="profileHeadline">优先关注车位共享</h3><p id="profileText">东部覆盖率高，适合选择家用慢充与公共快充搭配的补能方式。</p></div></div>
       <div class="closing"><span class="closing-line"></span><p>充电桩下乡，不只是设备下乡。<br><b>它让每一次回家，都有更近的路。</b></p></div>
+      <button class="share-btn" id="shareButton" type="button">分享这份乡村补能地图 <span>↗</span></button>
       <button class="restart-btn" data-restart type="button">再看一遍 <span>↻</span></button>
       <div class="cover-foot"><span>数据截至 2026 年 6 月底 · 公开资料整理</span><span>08 / 08</span></div>
     </section>

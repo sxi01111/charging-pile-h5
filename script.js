@@ -95,8 +95,12 @@
   function updateRegionMap(region) {
     const data = regionMapContent[region];
     const map = document.querySelector('#regionMap');
+    map.classList.remove('is-updating');
     map.style.background = `linear-gradient(135deg,${data.colors[0]},${data.colors[1]})`;
     map.innerHTML = `<div class="map-grid"></div>${data.labels.map(([label, position]) => `<span class="map-label ${position}">${label}</span>`).join('')}<svg viewBox="0 0 360 120" aria-hidden="true"><path d="${data.path}"/></svg>`;
+    void map.offsetWidth;
+    map.classList.add('is-updating');
+    window.setTimeout(() => map.classList.remove('is-updating'), 650);
     document.querySelector('#regionTag').textContent = data.tag;
   }
   document.querySelectorAll('.region').forEach(button => button.addEventListener('click', () => {
@@ -174,6 +178,15 @@
   }
   document.querySelectorAll('#areaChoices button').forEach(btn => btn.addEventListener('click', () => { document.querySelectorAll('#areaChoices button').forEach(item => item.classList.remove('selected')); btn.classList.add('selected'); selectedArea = btn.dataset.value; updateProfile(); tone(620); }));
   document.querySelectorAll('#carChoices button').forEach(btn => btn.addEventListener('click', () => { document.querySelectorAll('#carChoices button').forEach(item => item.classList.remove('selected')); btn.classList.add('selected'); selectedCar = btn.dataset.value; updateProfile(); tone(620); }));
+  document.querySelector('#shareButton')?.addEventListener('click', async () => {
+    const shareData = { title: '充电桩下乡记', text: '四大区域里的乡村补能地图', url: location.href };
+    try {
+      if (navigator.share) await navigator.share(shareData);
+      else { await navigator.clipboard.writeText(location.href); showToast('链接已复制，快分享给朋友吧'); }
+    } catch (error) {
+      if (error.name !== 'AbortError') showToast('分享未完成，可复制浏览器地址发送');
+    }
+  });
 
   document.querySelector('#soundToggle')?.addEventListener('click', () => {
     audioOn = !audioOn;
@@ -181,9 +194,11 @@
     document.querySelector('#soundToggle').textContent = audioOn ? '♪' : '◌';
     document.querySelector('#soundToggle').setAttribute('aria-pressed', String(audioOn));
     document.querySelector('#soundToggle').setAttribute('aria-label', audioOn ? '关闭背景音乐' : '开启背景音乐');
+    document.querySelector('#musicHint')?.classList.add('hide');
     if (audioOn) { startMusic(); tone(660); }
     else stopMusic();
   });
+  window.setTimeout(() => document.querySelector('#musicHint')?.classList.add('hide'), 5200);
   // 轻快的“乡野公路”电子民谣：暖和弦、木质拨弦和极轻的鼓刷，不使用尖锐提示音。
   const musicPhrases = [
     { chord: [50, 57, 62, 66], notes: [66, 69, 74, 69] },
