@@ -52,6 +52,7 @@
         </div>
         <p class="chart-note" id="chartNote">点击柱体查看试点说明</p>
       </div>
+      <button class="mini-action" data-detail="macro" type="button">查看试点说明 <span>＋</span></button>
       <span class="page-tag">补短板 · 先把桩立起来</span>
     </section>
 
@@ -69,7 +70,8 @@
         <div class="mini-stats"><span><strong>98%</strong><small>江苏行政村覆盖率</small></span><span><strong>2.6万+</strong><small>浙江乡村充电桩</small></span><span><strong>40%</strong><small>江苏超充桩占比</small></span></div>
         <div class="story-point"><b>新闻点</b><p>东莞、义乌等乡镇进入“快充升级”阶段；宁波象山花墙村把充电桩与文旅结合，让资源再生利用。</p></div>
       </div>
-      <div class="map-card" id="regionMap" aria-live="polite"><div class="map-grid"></div><span class="map-label label-a">江苏 98%</span><span class="map-label label-b">浙江 2.6万+</span><span class="map-label label-c">粤港澳</span><svg viewBox="0 0 360 120"><path d="M18 88 C74 31 120 101 168 54 S258 12 344 65"/></svg></div>
+      <div class="map-card" id="regionMap" role="button" tabindex="0" aria-label="查看当前地区补能重点" aria-live="polite"><div class="map-grid"></div><span class="map-label label-a">江苏 98%</span><span class="map-label label-b">浙江 2.6万+</span><span class="map-label label-c">粤港澳</span><svg viewBox="0 0 360 120"><path d="M18 88 C74 31 120 101 168 54 S258 12 344 65"/></svg></div>
+      <button class="mini-action" data-detail="region" type="button">查看地区补能重点 <span>＋</span></button>
       <span class="page-tag" id="regionTag">东部关键词：覆盖率 · 超充 · 文旅</span>
     </section>
 
@@ -80,6 +82,7 @@
       <div class="toggle-row"><span>充电负荷动态</span><div class="segmented"><button class="active" data-mode="holiday" type="button">节假日</button><button data-mode="weekday" type="button">平日</button></div></div>
       <div class="line-chart" aria-label="节假日与平日充电负荷曲线"><div class="y-labels"><span>高</span><span>中</span><span>低</span></div><svg viewBox="0 0 330 180" preserveAspectRatio="none"><path class="gridline" d="M0 28H330M0 90H330M0 150H330"/><path id="loadLine" class="load-line holiday" d="M0 143 C30 139 40 120 68 131 S95 108 117 118 S140 41 165 57 S190 19 212 44 S236 28 253 70 S285 12 330 22"/><circle id="loadDot" cx="212" cy="44" r="5"/></svg><div class="x-labels"><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div></div>
       <div class="central-callout"><span class="pulse-dot"></span><div><b>中部地区公共充电桩占比 30.1%</b><p>湖南慈利县投资 3348 万元，覆盖 26 个乡镇，预计年收益 500 万元。</p></div></div>
+      <button class="mini-action" data-detail="central" type="button">查看潮汐调度建议 <span>＋</span></button>
       <span class="page-tag">解决方案：预约功能 + 车位共享</span>
     </section>
 
@@ -89,7 +92,7 @@
       <div class="west-hero"><div class="sun-ring"></div><div class="mountain m1"></div><div class="mountain m2"></div><div class="station-illustration"><span>⚡</span><i></i><i></i><i></i></div></div>
       <div class="west-data"><div class="west-number"><strong>20%</strong><small>西部农村覆盖率仍不足</small></div><div class="west-number"><strong>6000<span>万</span></strong><small>甘肃甘谷县总投资</small></div><div class="west-number"><strong>45</strong><small>座规划充电站</small></div></div>
       <div class="west-copy"><b>甘肃甘谷 · 智慧充电网</b><p>覆盖 15 个乡镇、45 个行政村，总功率 24960 千瓦。光储充一体化与智慧运营中心，正在补上“最后一公里”。</p></div>
-      <button class="outline-btn" id="smartGridBtn" type="button">查看“光储充”示意 <span>＋</span></button>
+      <button class="outline-btn" data-detail="west" type="button">查看“光储充”示意 <span>＋</span></button>
       <span class="page-tag">西部关键词：基建 · 光储充 · 运营</span>
     </section>
 
@@ -100,6 +103,7 @@
       <div class="temperature"><div class="temp-readout"><span id="tempValue">-10</span><sup>℃</sup><small>环境温度</small></div><input id="tempSlider" type="range" min="-30" max="10" value="-10" aria-label="调整环境温度"/><div class="temp-scale"><span>-30℃</span><span>0℃</span><span>+10℃</span></div></div>
       <div class="efficiency-card"><div class="efficiency-top"><span>预计充电效率</span><strong id="efficiencyValue">72%</strong></div><div class="efficiency-bar"><i id="efficiencyBar" style="width:72%"></i></div><p id="efficiencyHint">低温预热已启动，建议选择带“低温预热”的超充站。</p></div>
       <div class="north-news"><b>辽宁试点</b><p>探索“光储充”融合技术，通过“车网互动”缓解冬季电网压力；试点充电服务已达 14.2 万次。</p></div>
+      <button class="mini-action" data-detail="north" type="button">查看低温补能要点 <span>＋</span></button>
       <span class="page-tag">东北关键词：预热 · 光储充 · 车网互动</span>
     </section>
 
@@ -109,6 +113,7 @@
       <div class="tech-compare"><div class="compare-head"><span>农村充电覆盖</span><span>全国均值</span></div><div class="compare-line"><b>农村充电桩覆盖率</b><div class="compare-track"><i style="width:98.61%"></i></div><strong>98.61%</strong></div><div class="compare-line muted"><b>村级充电点覆盖率</b><div class="compare-track"><i style="width:40%"></i></div><strong>不足 40%</strong></div></div>
       <div class="power-control"><div class="power-head"><span>拖动功率滑块</span><strong><span id="powerValue">120</span> kW</strong></div><input id="powerSlider" type="range" min="30" max="240" value="120" step="10" aria-label="调整充电功率"/><div class="power-scale"><span>慢充 30</span><span>快充 120</span><span>超充 240</span></div><div class="charge-time"><div><small>补能 80%</small><strong id="chargeTime">42 分钟</strong></div><div class="charge-orbit"><span id="chargeNeedle"></span><b>效率</b></div></div></div>
       <div class="tech-news"><b>技术升级正在缩短等待</b><p>2026 年上半年全国大功率充电枪已超 18 万个；浙江江山试点要求新增站点全部采用 120kW 以上快充设备。</p></div>
+      <button class="mini-action" data-detail="tech" type="button">查看快充下乡路径 <span>＋</span></button>
       <span class="page-tag">关键问题：城乡分布“城密乡疏”</span>
     </section>
 
@@ -126,7 +131,7 @@
     </section>
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <div class="modal" id="smartModal" aria-hidden="true"><div class="modal-backdrop" data-close-modal></div><div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" data-close-modal type="button" aria-label="关闭">×</button><div class="modal-icon">☼</div><h3 id="modalTitle">光储充一体化</h3><p>白天由光伏发电，储能电池在低谷时补电，充电桩在高峰时释放。乡村的“最后一公里”，也可以拥有自己的小型能源循环。</p><div class="energy-flow"><span>光伏</span><i>→</i><span>储能</span><i>→</i><span>充电</span></div></div></div>
+  <div class="modal" id="smartModal" aria-hidden="true"><div class="modal-backdrop" data-close-modal></div><div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" data-close-modal type="button" aria-label="关闭">×</button><div class="modal-icon" id="modalIcon">☼</div><h3 id="modalTitle">光储充一体化</h3><p id="modalText">白天由光伏发电，储能电池在低谷时补电，充电桩在高峰时释放。乡村的“最后一公里”，也可以拥有自己的小型能源循环。</p><div class="energy-flow" id="energyFlow"><span>光伏</span><i>→</i><span>储能</span><i>→</i><span>充电</span></div></div></div>
   <script src="script.js"></script>
 </body>
 </html>

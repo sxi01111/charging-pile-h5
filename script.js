@@ -126,10 +126,30 @@
     showToast(holiday ? '节假日：晚间负荷明显抬升' : '平日：负荷较平缓'); tone(holiday ? 680 : 520);
   }));
 
-  document.querySelector('#smartGridBtn')?.addEventListener('click', () => {
+  const detailContent = {
+    macro: { icon: '◎', title: '试点如何落地', text: '县域试点不是简单“多建一些桩”，而是把资金奖补、站点布局和后续运营放在同一张补能网络里统筹。', flow: ['奖补', '建站', '运营'] },
+    east: { icon: '↗', title: '从“有桩”到“优桩”', text: '东部的重点已从覆盖率转向体验：乡镇快充升级、超充比例提升，以及充电站与文旅场景的结合。', flow: ['覆盖', '快充', '服务'] },
+    central: { icon: '≈', title: '潮汐负荷怎么调度', text: '针对节假日排队、平日闲置的反差，可以组合预约、错峰充电和共享车位，让同一套设备发挥更稳定的效能。', flow: ['预约', '错峰', '共享'] },
+    west: { icon: '☼', title: '光储充一体化', text: '白天由光伏发电，储能电池在低谷时补电，充电桩在高峰时释放。乡村的“最后一公里”，也可以拥有自己的小型能源循环。', flow: ['光伏', '储能', '充电'] },
+    north: { icon: '❄', title: '低温补能要点', text: '极寒环境下，低温预热、站点保温和车网互动要一起发挥作用，才能把效率损失控制在更小范围。', flow: ['预热', '保温', '补能'] },
+    tech: { icon: '⚡', title: '快充如何真正下乡', text: '功率提升只是第一步。新增站点还需要匹配乡镇配电容量、停车周转和稳定运维，才能缩短真实等待时间。', flow: ['扩容', '快充', '运维'] }
+  };
+  function openDetail(key) {
+    const resolvedKey = key === 'region' ? document.querySelector('.region.active')?.dataset.region : key;
+    const detail = detailContent[resolvedKey];
+    if (!detail) return;
+    document.querySelector('#modalIcon').textContent = detail.icon;
+    document.querySelector('#modalTitle').textContent = detail.title;
+    document.querySelector('#modalText').textContent = detail.text;
+    document.querySelector('#energyFlow').innerHTML = detail.flow.map((item, index) => `<span>${item}</span>${index < detail.flow.length - 1 ? '<i>→</i>' : ''}`).join('');
     document.querySelector('#smartModal').classList.add('open');
     document.querySelector('#smartModal').setAttribute('aria-hidden', 'false');
-    tone(840);
+    tone(640);
+  }
+  document.querySelectorAll('[data-detail]').forEach(button => button.addEventListener('click', () => openDetail(button.dataset.detail)));
+  document.querySelector('#regionMap')?.addEventListener('click', () => openDetail('region'));
+  document.querySelector('#regionMap')?.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); openDetail('region'); }
   });
   document.querySelectorAll('[data-close-modal]').forEach(item => item.addEventListener('click', () => {
     document.querySelector('#smartModal').classList.remove('open');
